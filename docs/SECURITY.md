@@ -5,11 +5,12 @@ This MVP demonstrates controls; it is not compliance-certified and must not proc
 ## Implemented
 
 - Synthetic-only UI and payer portals are visibly labeled.
-- Navigation policy accepts HTTPS (plus localhost for development), exact domains, and true subdomains; suffix-confusion hosts are rejected.
+- Navigation policy accepts exact HTTPS hosts and explicitly wildcarded subdomains. It rejects suffix confusion, embedded credentials, IP literals, local hosts, and nonstandard ports.
+- The bounded executor applies that policy before invoking its browser adapter for navigation.
 - Portal text is untrusted. Common prompt-injection instructions block the step instead of changing agent policy.
 - Submit/destructive actions require explicit approval before the adapter is called.
 - Execution attempts are bounded; recovery cannot recurse indefinitely.
-- API input is schema-validated and approval role is checked.
+- Approval API input is schema-validated. The non-persistent header adapter is disabled by default and unavailable in production builds because its headers are not authentication.
 - Resource lookup includes tenant ID and returns a uniform not-found response across tenants.
 - PostgreSQL schema carries tenant ID on operational records and includes RLS policies.
 - Evidence records require SHA-256 digests; runs support idempotency keys.
@@ -27,6 +28,6 @@ This MVP demonstrates controls; it is not compliance-certified and must not proc
 
 ## Threat boundaries
 
-Payer pages, downloaded files, OCR, and model output are attacker-controlled. None may alter system policy, allowed domains, approval requirements, credentials, or workflow budgets. An approval is bound to a tenant, run, step, expected pending state, and proposed diff to prevent confused-deputy and stale-approval behavior.
+Payer pages, downloaded files, OCR, and model output are attacker-controlled. None may alter system policy, allowed domains, approval requirements, credentials, or workflow budgets. Production approvals must be transactionally bound to a tenant, run, step, expected pending state, expiry, nonce, and canonical proposed-action digest; the current non-persistent demo does not claim that guarantee.
 
 Report security issues privately to the repository owner; do not include sensitive data in an issue.

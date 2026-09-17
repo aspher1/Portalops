@@ -5,6 +5,7 @@ export interface WorkflowStep {
   id: string;
   label: string;
   kind: "navigate" | "extract" | "compare" | "write" | "submit" | "evidence";
+  targetUrl?: string;
   status: StepStatus;
   destructive: boolean;
   attempts: number;

@@ -1,4 +1,4 @@
-import { inspectPortalText, requiresApproval } from "./policy";
+import { evaluateNavigation, inspectPortalText, requiresApproval } from "./policy";
 import type { WorkflowStep } from "./domain";
 
 export interface BrowserAdapter {
@@ -20,16 +20,27 @@ export type StepResult =
 export async function executeStep(
   step: WorkflowStep,
   browser: BrowserAdapter,
-  options: { maxAttempts?: number; approved?: boolean } = {},
+  options: { maxAttempts?: number; approved?: boolean; allowedDomains?: readonly string[] } = {},
 ): Promise<StepResult> {
   const maxAttempts = options.maxAttempts ?? 3;
   if (requiresApproval(step.kind, step.destructive) && !options.approved) {
     return { outcome: "approval_required", attempts: 0 };
   }
+  if (step.kind === "navigate") {
+    if (!step.targetUrl) {
+      return { outcome: "blocked", attempts: 0, reason: "navigation_target_required" };
+    }
+    const navigation = evaluateNavigation(step.targetUrl, options.allowedDomains ?? []);
+    if (!navigation.allowed) {
+      return { outcome: "blocked", attempts: 0, reason: navigation.reason };
+    }
+  }
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
-      if (step.kind === "extract" || step.kind === "compare") {
+      if (step.kind === "navigate") {
+        await browser.navigate(step.targetUrl!);
+      } else if (step.kind === "extract" || step.kind === "compare") {
         const content = await browser.read(step.label);
         const inspection = inspectPortalText(content);
         if (!inspection.safe) {

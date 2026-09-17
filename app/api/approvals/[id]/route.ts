@@ -10,6 +10,11 @@ const decisionSchema = z.object({
 });
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  // This scaffold has no verified session provider. Keep the header-based
+  // adapter unreachable in hosted builds so it cannot be mistaken for auth.
+  if (process.env.NODE_ENV !== "development" || process.env.PORTALOPS_ENABLE_LOCAL_DEMO_API !== "true") {
+    return NextResponse.json({ error: "demo_api_disabled" }, { status: 503 });
+  }
   const context = requestContext(request.headers);
   if (!context) return NextResponse.json({ error: "unauthenticated" }, { status: 401 });
   if (!canApprove(context)) return NextResponse.json({ error: "insufficient_role" }, { status: 403 });
