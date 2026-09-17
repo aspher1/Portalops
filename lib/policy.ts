@@ -25,7 +25,7 @@ export function evaluateNavigation(rawUrl: string, allowedDomains: readonly stri
 }
 
 const suspiciousPatterns = [
-  /ignore (all|any|the|previous) (instructions|rules)/i,
+  /ignore (?:all |any |the |previous )*(?:previous )?(instructions|rules)/i,
   /system (message|prompt)/i,
   /reveal (credentials|secrets|tokens|passwords)/i,
   /upload .{0,20} to/i,
