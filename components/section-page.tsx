@@ -7,6 +7,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { AppShell } from "./app-shell";
+import { ProviderUpdateDemo } from "./provider-update-demo";
 import { runs } from "@/lib/demo-data";
 
 const copy: Record<string, { title: string; description: string }> = {
@@ -81,6 +82,9 @@ const commercial = new Set(["product", "pricing", "security", "demo"]);
 
 export function SectionPage({ section }: { section: string }) {
   const info = copy[section] ?? { title: "PortalOps", description: "Supervised enrollment operations." };
+  if (section === "demo") {
+    return <AppShell title="Provider address update demo" pendingApprovals={0}><div className="content demo-content"><ProviderUpdateDemo /></div></AppShell>;
+  }
   const isCommercial = commercial.has(section);
   return <AppShell title={info.title}><div className="content">
     {isCommercial ? <>

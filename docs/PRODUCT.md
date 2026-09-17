@@ -10,7 +10,7 @@ An operator starts a run for a synthetic provider and payer. The agent navigates
 
 ### Practice address update
 
-The agent locates the synthetic profile and stages an address and effective date. It then stops before submission. The approver sees the exact before/after values, risk level, requester, and evidence, and can reject or authorize that one step. The demo records this interaction in memory.
+The guided `/demo` run locates a synthetic profile, visibly recovers from a moved portal target within its attempt budget, and stages an address and effective date. It then stops before submission and explains the side-effect policy. The approver sees exact before/after values and can approve that one synthetic step, reject it safely, or take control. Every path ends in a structured result and in-memory evidence summary. The experience is deterministic and entirely client-side: it does not persist data, call a backend, or affect an external portal.
 
 ## Product principles
 

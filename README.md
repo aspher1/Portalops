@@ -23,7 +23,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). All displayed data is synthetic. The dashboard demo is interactive but in-memory; its decision API deliberately validates without persisting.
+Open [http://localhost:3000](http://localhost:3000). All displayed data is synthetic. The guided provider address update at `/demo` is deterministic, client-side, and in-memory; it makes no backend or external portal calls. The dashboard decision API separately validates without persisting.
 
 The header-based approval validation endpoint is disabled by default because its local demo headers are not authentication. It can be enabled only during local development with `PORTALOPS_ENABLE_LOCAL_DEMO_API=true`; never use it as a production identity boundary.
 
