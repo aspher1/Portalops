@@ -10,5 +10,6 @@
 - Added tenant-aware approval API boundary and PostgreSQL migration with constraints, indexes, idempotency, and RLS.
 - Added unit coverage for the highest-risk policy and execution paths.
 - Documented product, architecture, security posture, decisions, assumptions, and roadmap without compliance claims.
+- Replaced the Evidence placeholder with a report index and a responsive, read-only synthetic evidence report for `RUN-2841`, including extracted facts, action and policy histories, placeholder artifact provenance, and manifest format tests.
 
 Verification results are recorded in the final commit/PR report rather than hard-coded here so this file does not become stale.

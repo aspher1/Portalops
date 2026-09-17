@@ -8,6 +8,7 @@ import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { AppShell } from "./app-shell";
 import { ProviderUpdateDemo } from "./provider-update-demo";
+import { EvidenceIndex } from "./evidence-index";
 import { runs } from "@/lib/demo-data";
 
 const copy: Record<string, { title: string; description: string }> = {
@@ -42,10 +43,6 @@ function Cards({ section }: { section: string }) {
     { icon: Bot, title: "Atlas operator", text: "Status checks and profile updates on the Atlas synthetic portal. Domain-scoped; 3-attempt budget.", action: "Open Atlas portal", href: "/portals/atlas" },
     { icon: Bot, title: "Meridian operator", text: "Read and staged-write capability. All submissions require approval.", action: "Open Meridian portal", href: "/portals/meridian" },
     { icon: Radar, title: "Recovery monitor", text: "Detects locator drift and re-anchors using visible labels and landmarks.", action: "View run events", href: "/runs" },
-  ] : section === "evidence" ? [
-    { icon: FileArchive, title: "RUN-2841 bundle", text: "8 artifacts · screenshot, extracted fields, event log, SHA-256 manifest.", action: "Review source run", href: "/runs" },
-    { icon: FileArchive, title: "RUN-2840 draft", text: "6 artifacts captured before the approval boundary.", action: "Review approval", href: "/" },
-    { icon: LockKeyhole, title: "Retention policy", text: "Demo retention is set to 30 days. Production storage is not configured.", action: "Review security model", href: "/security" },
   ] : section === "integrations" ? [
     { icon: Globe2, title: "Atlas Health Plan", text: "Synthetic payer portal · connected · read and staged-write capabilities.", action: "Open portal", href: "/portals/atlas" },
     { icon: Globe2, title: "Meridian Choice", text: "Synthetic payer portal · connected · approval required for submission.", action: "Open portal", href: "/portals/meridian" },
@@ -84,6 +81,9 @@ export function SectionPage({ section }: { section: string }) {
   const info = copy[section] ?? { title: "PortalOps", description: "Supervised enrollment operations." };
   if (section === "demo") {
     return <AppShell title="Provider address update demo" pendingApprovals={0}><div className="content demo-content"><ProviderUpdateDemo /></div></AppShell>;
+  }
+  if (section === "evidence") {
+    return <AppShell title="Evidence"><div className="content evidence-content"><EvidenceIndex /></div></AppShell>;
   }
   const isCommercial = commercial.has(section);
   return <AppShell title={info.title}><div className="content">

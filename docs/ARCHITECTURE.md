@@ -26,6 +26,8 @@ Routes parse inputs with Zod, derive tenant and role from server-trusted identit
 
 Evidence records reference immutable object keys and SHA-256 digests. A production worker should capture before/after screenshots, redacted DOM facts, action inputs, and portal confirmation, then seal a manifest. Binary artifacts belong in encrypted object storage; metadata belongs in PostgreSQL.
 
+`lib/evidence.ts` defines the structured synthetic report used by `/evidence/RUN-2841` and pure format checks for manifest digest metadata. The rendered artifact entries are demonstration placeholders, not object-storage records. Digest format validation does not establish file integrity because this MVP has no corresponding binary artifacts to hash.
+
 ## Intended production topology
 
 - Next.js control plane behind verified SSO/session middleware

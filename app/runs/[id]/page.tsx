@@ -53,7 +53,9 @@ export default async function RunDetailPage({ params }: { params: Promise<{ id: 
               <div><dt>Portal</dt><dd>{run.payer}</dd></div>
               <div><dt>Automation boundary</dt><dd>{run.status === "needs_approval" ? "Submission paused" : "Policy checks passed"}</dd></div>
             </dl>
-            <Link className="button" href="/evidence"><FileArchive size={13} /> Open evidence workspace</Link>
+            <Link className="button" href={run.id === "RUN-2841" ? `/evidence/${run.id}` : "/evidence"}>
+              <FileArchive size={13} /> {run.id === "RUN-2841" ? "Open evidence report" : "Open evidence workspace"}
+            </Link>
           </aside>
         </div>
       </div>
