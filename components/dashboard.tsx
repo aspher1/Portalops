@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   Activity, ArrowRight, Check, CheckCircle2, Clock3, FileCheck2, Pause,
-  Play, RefreshCw, ShieldAlert, Sparkles, UserCheck, X,
+  Play, RefreshCw, ShieldAlert, Sparkles, UserCheck, X, MonitorUp,
 } from "lucide-react";
 import { activity, approvals, runs } from "@/lib/demo-data";
 import { AppShell } from "./app-shell";
@@ -14,15 +14,17 @@ function Status({ value }: { value: string }) {
 }
 
 export function Dashboard() {
-  const [approvalStatus, setApprovalStatus] = useState<"pending" | "approved" | "rejected">("pending");
+  const [approvalStatus, setApprovalStatus] = useState<"pending" | "approved" | "rejected" | "human_takeover">("pending");
   const [message, setMessage] = useState<string | null>(null);
   const approval = approvals[0];
 
-  function decide(status: "approved" | "rejected") {
+  function decide(status: "approved" | "rejected" | "human_takeover") {
     setApprovalStatus(status);
     setMessage(status === "approved"
       ? "Approval recorded. RUN-2840 may resume its single authorized submission step."
-      : "Change rejected. The staged portal update was discarded.");
+      : status === "rejected"
+        ? "Change rejected. The staged portal update was discarded."
+        : "Human takeover requested. Agent execution is paused and the handoff is recorded.");
   }
 
   return (
@@ -73,8 +75,14 @@ export function Dashboard() {
             {approvalStatus === "pending" ? <>
               <div className="approval-banner"><ShieldAlert size={17} color="#a96500" /><div><div className="strong">External side effect paused</div><div className="meta">The agent cannot submit this change until a workspace approver authorizes it.</div></div></div>
               <p className="subtle">{approval.summary}</p>
+              <dl className="approval-context">
+                <div><dt>Target</dt><dd>Meridian Choice · provider profile</dd></div>
+                <div><dt>Risk</dt><dd>High · external submission</dd></div>
+                <div><dt>Reason</dt><dd>Requested practice demographic update</dd></div>
+                <div><dt>Evidence</dt><dd>6 captured artifacts · RUN-2840</dd></div>
+              </dl>
               <div className="changes">{approval.changes.map((change) => <div className="change" key={change.field}><div className="strong">{change.field}</div><div className="change-values"><span className="before">{change.before}</span><ArrowRight size={12} /><span className="after">{change.after}</span></div></div>)}</div>
-              <div className="approval-actions"><button className="button danger" onClick={() => decide("rejected")}><X size={13} /> Reject</button><button className="button primary" onClick={() => decide("approved")}><Check size={13} /> Approve & resume</button></div>
+              <div className="approval-actions"><button className="button" onClick={() => decide("human_takeover")}><MonitorUp size={13} /> Take control</button><button className="button danger" onClick={() => decide("rejected")}><X size={13} /> Reject</button><button className="button primary" onClick={() => decide("approved")}><Check size={13} /> Approve & resume</button></div>
             </> : <div className="empty-note"><Sparkles size={22} color="#087a5b" style={{ margin: "0 auto 10px" }} /><h2>Decision recorded</h2><p className="subtle" style={{ marginTop: 7 }}>{message}</p></div>}
           </div>
         </section>

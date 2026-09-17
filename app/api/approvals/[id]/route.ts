@@ -4,7 +4,7 @@ import { approvals } from "@/lib/demo-data";
 import { canApprove, requestContext } from "@/lib/server/auth";
 
 const decisionSchema = z.object({
-  decision: z.enum(["approved", "rejected"]),
+  decision: z.enum(["approved", "rejected", "human_takeover"]),
   expectedStatus: z.literal("pending"),
   reason: z.string().trim().min(3).max(500),
 });
