@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  Activity, ArrowRight, Check, CheckCircle2, Clock3, FileCheck2, Pause,
-  Play, RefreshCw, ShieldAlert, Sparkles, UserCheck, X, MonitorUp,
+  Activity, ArrowRight, Check, CheckCircle2, Clock3, FileCheck2, MoreHorizontal, Pause,
+  Play, RefreshCw, ShieldAlert, Sparkles, UserCheck, X, MonitorUp, Zap,
 } from "lucide-react";
 import { activity, approvals, runs } from "@/lib/demo-data";
 import { AppShell } from "./app-shell";
@@ -31,32 +31,32 @@ export function Dashboard() {
     <AppShell>
       <div className="content">
         <div className="page-head">
-          <div><h1>Good morning, Avery</h1><p className="subtle">Here&apos;s what your enrollment operations need today.</p></div>
+          <div><div className="page-overline"><span className="live-signal" /> Thursday, September 17 · 09:48 CDT</div><h1>Operations overview</h1><p className="subtle">Three decisions require attention across your enrollment network.</p></div>
           <button className="button primary" onClick={() => setMessage("Demo run queued with a 3-attempt budget and approval gate.")}><Play size={13} fill="currentColor" /> New run</button>
         </div>
         {message && <div className="notice" role="status">{message}</div>}
         <div className="metrics">
-          <div className="card metric"><div className="metric-top"><span>Active runs</span><Activity size={15} /></div><div className="metric-value">12</div><div className="trend">↑ 3 since yesterday</div></div>
-          <div className="card metric"><div className="metric-top"><span>Needs approval</span><UserCheck size={15} /></div><div className="metric-value">3</div><div className="trend" style={{ color: "#a96500" }}>Oldest waiting 24m</div></div>
-          <div className="card metric"><div className="metric-top"><span>Completed this week</span><CheckCircle2 size={15} /></div><div className="metric-value">47</div><div className="trend">96% completion rate</div></div>
-          <div className="card metric"><div className="metric-top"><span>Hours returned</span><Clock3 size={15} /></div><div className="metric-value">18.6</div><div className="trend">Based on configured baselines</div></div>
+          <div className="card metric"><div className="metric-top"><span>Active runs</span><Activity size={15} /></div><div className="metric-value">12</div><div className="trend"><span>+3</span> since yesterday</div></div>
+          <div className="card metric priority"><div className="metric-top"><span>Needs approval</span><UserCheck size={15} /></div><div className="metric-value">03</div><div className="trend warning"><span>24m</span> oldest wait</div></div>
+          <div className="card metric"><div className="metric-top"><span>Completed / 7d</span><CheckCircle2 size={15} /></div><div className="metric-value">47</div><div className="trend"><span>96%</span> completion rate</div></div>
+          <div className="card metric"><div className="metric-top"><span>Capacity returned</span><Clock3 size={15} /></div><div className="metric-value">18.6<span className="metric-unit">h</span></div><div className="trend neutral">Configured baseline estimate</div></div>
         </div>
 
         <div className="dashboard-grid">
           <section className="card">
-            <div className="card-head"><div><h2>Recent runs</h2><p className="meta">Supervised activity across connected portals</p></div><Link className="button" href="/runs">View all <ArrowRight size={13} /></Link></div>
+            <div className="card-head"><div><div className="card-label">Execution ledger</div><h2>Recent runs</h2><p className="meta">Supervised activity across connected portals</p></div><Link className="text-link" href="/runs">View ledger <ArrowRight size={13} /></Link></div>
             <div style={{ overflowX: "auto" }}>
               <table className="table">
                 <thead><tr><th>Workflow</th><th>Status</th><th>Payer</th><th>Started</th></tr></thead>
                 <tbody>{runs.map((run) => <tr key={run.id}>
                   <td><div className="strong">{run.workflow}</div><div className="meta">{run.id} · {run.provider}</div></td>
-                  <td><Status value={run.status} /></td><td>{run.payer}</td><td style={{ color: "#74817c" }}>{run.startedAt}</td>
+                  <td><Status value={run.status} /></td><td>{run.payer}</td><td className="table-time">{run.startedAt}</td>
                 </tr>)}</tbody>
               </table>
             </div>
           </section>
           <section className="card">
-            <div className="card-head"><div><h2>Live activity</h2><p className="meta">Explainable agent events</p></div><span className="pill running"><span className="dot" />Live</span></div>
+            <div className="card-head"><div><div className="card-label">Signal stream</div><h2>Live activity</h2><p className="meta">Explainable agent events</p></div><span className="pill running"><span className="dot" />Live</span></div>
             <div className="activity-list">{activity.map((item) => (
               <div className="activity" key={item.title}>
                 <div className="activity-icon">{item.icon === "check" ? <Check size={13} /> : item.icon === "pause" ? <Pause size={13} /> : item.icon === "refresh" ? <RefreshCw size={13} /> : <FileCheck2 size={13} />}</div>
@@ -68,21 +68,35 @@ export function Dashboard() {
 
         <section className="card approval-card">
           <div className="card-head">
-            <div><div className="eyebrow" style={{ color: "#9a6008", marginBottom: 6 }}>Approval requested</div><h2>{approval.title}</h2></div>
+            <div><div className="eyebrow approval-kicker"><ShieldAlert size={11} /> Decision checkpoint · {approval.id}</div><h2>{approval.title}</h2></div>
             <Status value={approvalStatus} />
           </div>
           <div className="approval-body">
             {approvalStatus === "pending" ? <>
-              <div className="approval-banner"><ShieldAlert size={17} color="#a96500" /><div><div className="strong">External side effect paused</div><div className="meta">The agent cannot submit this change until a workspace approver authorizes it.</div></div></div>
-              <p className="subtle">{approval.summary}</p>
-              <dl className="approval-context">
-                <div><dt>Target</dt><dd>Meridian Choice · provider profile</dd></div>
-                <div><dt>Risk</dt><dd>High · external submission</dd></div>
-                <div><dt>Reason</dt><dd>Requested practice demographic update</dd></div>
-                <div><dt>Evidence</dt><dd>6 captured artifacts · RUN-2840</dd></div>
-              </dl>
-              <div className="changes">{approval.changes.map((change) => <div className="change" key={change.field}><div className="strong">{change.field}</div><div className="change-values"><span className="before">{change.before}</span><ArrowRight size={12} /><span className="after">{change.after}</span></div></div>)}</div>
-              <div className="approval-actions"><button className="button" onClick={() => decide("human_takeover")}><MonitorUp size={13} /> Take control</button><button className="button danger" onClick={() => decide("rejected")}><X size={13} /> Reject</button><button className="button primary" onClick={() => decide("approved")}><Check size={13} /> Approve & resume</button></div>
+              <div className="approval-layout">
+                <div className="approval-main">
+                  <div className="approval-banner"><ShieldAlert size={17} /><div><div className="strong">External side effect paused</div><div className="meta">Submission is policy-gated until a workspace approver authorizes this exact change set.</div></div></div>
+                  <p className="subtle approval-summary">{approval.summary}</p>
+                  <div className="changes">
+                    <div className="change-head"><span>Proposed change</span><span>Current value</span><span>Staged value</span></div>
+                    {approval.changes.map((change) => <div className="change" key={change.field}><div className="strong">{change.field}</div><span className="before">{change.before}</span><span className="after">{change.after}</span></div>)}
+                  </div>
+                </div>
+                <aside className="approval-rail">
+                  <div className="rail-heading"><Zap size={13} /> Execution context</div>
+                  <dl className="approval-context">
+                    <div><dt>Target</dt><dd>Meridian Choice<br/><span>Provider profile</span></dd></div>
+                    <div><dt>Risk class</dt><dd><span className="risk-indicator" /> Medium · external write</dd></div>
+                    <div><dt>Requested by</dt><dd>Atlas agent<br/><span>24 minutes ago</span></dd></div>
+                    <div><dt>Evidence</dt><dd>6 sealed artifacts<br/><span>RUN-2840</span></dd></div>
+                  </dl>
+                  <Link className="evidence-link" href="/evidence">Inspect evidence bundle <ArrowRight size={12} /></Link>
+                </aside>
+              </div>
+              <div className="approval-footer">
+                <span><ShieldAlert size={13} /> Decision will be appended to the audit history</span>
+                <div className="approval-actions"><button className="button" onClick={() => decide("human_takeover")}><MonitorUp size={13} /> Take control</button><button className="button danger" onClick={() => decide("rejected")}><X size={13} /> Reject</button><button className="button primary" onClick={() => decide("approved")}><Check size={13} /> Approve & resume</button><button className="icon-button more-button" aria-label="More approval options"><MoreHorizontal size={15} /></button></div>
+              </div>
             </> : <div className="empty-note"><Sparkles size={22} color="#087a5b" style={{ margin: "0 auto 10px" }} /><h2>Decision recorded</h2><p className="subtle" style={{ marginTop: 7 }}>{message}</p></div>}
           </div>
         </section>
