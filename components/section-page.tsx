@@ -4,6 +4,7 @@ import {
   Bot, Check, CircleDot, Database, ExternalLink, FileArchive, Globe2, KeyRound,
   LockKeyhole, Play, Plug, Radar, Settings2, ShieldCheck, Workflow,
 } from "lucide-react";
+import Link from "next/link";
 import { AppShell } from "./app-shell";
 import { runs } from "@/lib/demo-data";
 
@@ -52,5 +53,5 @@ function Cards({ section }: { section: string }) {
 
 export function SectionPage({ section }: { section: string }) {
   const info = copy[section] ?? { title: "PortalOps", description: "Supervised enrollment operations." };
-  return <AppShell title={info.title}><div className="content"><div className="page-head"><div><h1>{info.title}</h1><p className="subtle">{info.description}</p></div>{section === "approvals" && <span className="pill pending"><CircleDot size={9} /> 3 pending</span>}</div>{section === "runs" ? <Runs /> : section === "approvals" ? <section className="card empty-note"><Check size={25} color="#087a5b" style={{ margin: "0 auto 12px" }} /><h2>One approval is highlighted on Dashboard</h2><p className="subtle" style={{ marginTop: 8 }}>Review the flagship address update, including its field-level diff and external-side-effect boundary.</p><a href="/" className="button primary" style={{ marginTop: 18 }}>Review request</a></section> : <Cards section={section} />}</div></AppShell>;
+  return <AppShell title={info.title}><div className="content"><div className="page-head"><div><h1>{info.title}</h1><p className="subtle">{info.description}</p></div>{section === "approvals" && <span className="pill pending"><CircleDot size={9} /> 3 pending</span>}</div>{section === "runs" ? <Runs /> : section === "approvals" ? <section className="card empty-note"><Check size={25} color="#087a5b" style={{ margin: "0 auto 12px" }} /><h2>One approval is highlighted on Dashboard</h2><p className="subtle" style={{ marginTop: 8 }}>Review the flagship address update, including its field-level diff and external-side-effect boundary.</p><Link href="/" className="button primary" style={{ marginTop: 18 }}>Review request</Link></section> : <Cards section={section} />}</div></AppShell>;
 }

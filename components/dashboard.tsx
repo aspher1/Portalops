@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   Activity, ArrowRight, Check, CheckCircle2, Clock3, FileCheck2, Pause,
   Play, RefreshCw, ShieldAlert, Sparkles, UserCheck, X,
@@ -41,7 +42,7 @@ export function Dashboard() {
 
         <div className="dashboard-grid">
           <section className="card">
-            <div className="card-head"><div><h2>Recent runs</h2><p className="meta">Supervised activity across connected portals</p></div><a className="button" href="/runs">View all <ArrowRight size={13} /></a></div>
+            <div className="card-head"><div><h2>Recent runs</h2><p className="meta">Supervised activity across connected portals</p></div><Link className="button" href="/runs">View all <ArrowRight size={13} /></Link></div>
             <div style={{ overflowX: "auto" }}>
               <table className="table">
                 <thead><tr><th>Workflow</th><th>Status</th><th>Payer</th><th>Started</th></tr></thead>
