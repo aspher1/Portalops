@@ -7,6 +7,7 @@ export const metadata: Metadata = {
     template: "%s · PortalOps AI",
   },
   description: "Supervised payer portal operations for provider enrollment teams",
+  icons: { icon: "/icon.svg" },
 };
 
 export const viewport: Viewport = {

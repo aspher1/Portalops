@@ -18,7 +18,7 @@ const nav = [
   ["Integrations", "/integrations", Plug],
 ] as const;
 
-export function AppShell({ children, title = "Operations overview" }: { children: React.ReactNode; title?: string }) {
+export function AppShell({ children, title = "Operations overview", pendingApprovals = 3 }: { children: React.ReactNode; title?: string; pendingApprovals?: number }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -31,7 +31,7 @@ export function AppShell({ children, title = "Operations overview" }: { children
       onClick={() => setMobileOpen(false)}
     >
       <Icon size={16} strokeWidth={1.7} /><span>{label}</span>
-      {label === "Approvals" && <span className="nav-count">3</span>}
+      {label === "Approvals" && pendingApprovals > 0 && <span className="nav-count">{pendingApprovals}</span>}
     </Link>
   ));
 

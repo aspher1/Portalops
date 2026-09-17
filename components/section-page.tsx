@@ -33,7 +33,7 @@ const workflowCards: FeatureCard[] = [
 ];
 
 function Runs() {
-  return <section className="card"><div className="card-head"><h2>Execution history</h2><Link className="button primary" href="/"><Play size={13} /> Start from dashboard</Link></div><div style={{ overflowX: "auto" }}><table className="table"><thead><tr><th>Run</th><th>Workflow</th><th>Progress</th><th>Status</th></tr></thead><tbody>{runs.map(run => <tr key={run.id}><td className="strong">{run.id}</td><td><div className="strong">{run.workflow}</div><div className="meta">{run.payer}</div></td><td>{run.progress}%</td><td><span className={`pill ${run.status}`}><span className="dot" />{run.status.replaceAll("_", " ")}</span></td></tr>)}</tbody></table></div></section>;
+  return <section className="card"><div className="card-head"><h2>Execution history</h2><Link className="button primary" href="/"><Play size={13} /> Start from dashboard</Link></div><div style={{ overflowX: "auto" }}><table className="table"><thead><tr><th>Run</th><th>Workflow</th><th>Progress</th><th>Status</th></tr></thead><tbody>{runs.map(run => <tr key={run.id}><td><Link className="run-link" href={`/runs/${run.id}`}>{run.id}</Link></td><td><div className="strong">{run.workflow}</div><div className="meta">{run.payer}</div></td><td>{run.progress}%</td><td><span className={`pill ${run.status}`}><span className="dot" />{run.status.replaceAll("_", " ")}</span></td></tr>)}</tbody></table></div></section>;
 }
 
 function Cards({ section }: { section: string }) {

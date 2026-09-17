@@ -28,7 +28,7 @@ export function Dashboard() {
   }
 
   return (
-    <AppShell>
+    <AppShell pendingApprovals={approvalStatus === "pending" ? 3 : 2}>
       <div className="content">
         <div className="page-head">
           <div><div className="page-overline"><span className="live-signal" /> Thursday, September 17 · 09:48 CDT</div><h1>Operations overview</h1><p className="subtle">Three decisions require attention across your enrollment network.</p></div>
@@ -37,7 +37,7 @@ export function Dashboard() {
         {message && <div className="notice" role="status">{message}</div>}
         <div className="metrics">
           <div className="card metric"><div className="metric-top"><span>Active runs</span><Activity size={15} /></div><div className="metric-value">12</div><div className="trend"><span>+3</span> since yesterday</div></div>
-          <div className="card metric priority"><div className="metric-top"><span>Needs approval</span><UserCheck size={15} /></div><div className="metric-value">03</div><div className="trend warning"><span>24m</span> oldest wait</div></div>
+          <div className="card metric priority"><div className="metric-top"><span>Needs approval</span><UserCheck size={15} /></div><div className="metric-value">0{approvalStatus === "pending" ? 3 : 2}</div><div className="trend warning"><span>{approvalStatus === "pending" ? "24m" : "11m"}</span> oldest wait</div></div>
           <div className="card metric"><div className="metric-top"><span>Completed / 7d</span><CheckCircle2 size={15} /></div><div className="metric-value">47</div><div className="trend"><span>96%</span> completion rate</div></div>
           <div className="card metric"><div className="metric-top"><span>Capacity returned</span><Clock3 size={15} /></div><div className="metric-value">18.6<span className="metric-unit">h</span></div><div className="trend neutral">Configured baseline estimate</div></div>
         </div>
@@ -49,7 +49,7 @@ export function Dashboard() {
               <table className="table">
                 <thead><tr><th>Workflow</th><th>Status</th><th>Payer</th><th>Started</th></tr></thead>
                 <tbody>{runs.map((run) => <tr key={run.id}>
-                  <td><div className="strong">{run.workflow}</div><div className="meta">{run.id} · {run.provider}</div></td>
+                  <td><Link className="run-link" href={`/runs/${run.id}`}>{run.workflow}</Link><div className="meta">{run.id} · {run.provider}</div></td>
                   <td><Status value={run.status} /></td><td>{run.payer}</td><td className="table-time">{run.startedAt}</td>
                 </tr>)}</tbody>
               </table>
