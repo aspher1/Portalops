@@ -1,3 +1,29 @@
+<!-- portfolio-intro:start -->
+# PortalOps AI
+
+**Human-supervised workflow automation for healthcare credentialing and payer enrollment.**
+
+PortalOps is a full-stack **prototype** exploring how bounded browser workflows, explicit approval gates and evidence trails can make repetitive administrative operations more auditable.
+
+**Tech:** Next.js, React, TypeScript, Zod, PostgreSQL schema with row-level security design, Vitest.
+
+| Engineering concern | Demonstrated approach |
+| --- | --- |
+| Safe automation | Require approval before submissions, updates and other external side effects |
+| Unreliable external interfaces | Bounded retries, domain controls and semantic recovery |
+| Auditability | Typed execution records and evidence digests |
+| Tenant separation | Tenant-aware server boundaries and PostgreSQL policies |
+
+**Start here:** [Architecture](docs/ARCHITECTURE.md) · [Security](docs/SECURITY.md) · [Product](docs/PRODUCT.md) · [Tests](tests/)
+
+**Status:** Synthetic-data MVP. It is not integrated with live payer systems, is not HIPAA/SOC 2 certified, and is **not suitable for real healthcare data**. The demo has in-memory behavior and is not a production deployment.
+
+**Run and verify:** Node.js 22+ is required. Use `npm ci`, `npm run dev`, and the test/typecheck/lint/build commands documented below. A successful run in your own environment is not implied by this README.
+
+---
+
+<!-- portfolio-intro:end -->
+
 # PortalOps AI
 
 PortalOps AI is a supervised operations workspace for healthcare provider credentialing and payer enrollment teams. It demonstrates bounded browser workflows, human approval before external side effects, and evidence-backed run histories.
