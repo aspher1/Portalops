@@ -26,9 +26,8 @@ PortalOps is a full-stack **prototype** exploring how bounded browser workflows,
 
 <!-- portfolio-intro:end -->
 
-# PortalOps AI
+## Implementation and setup
 
-PortalOps AI is a supervised operations workspace for healthcare provider credentialing and payer enrollment teams. It demonstrates bounded browser workflows, human approval before external side effects, and evidence-backed run histories.
 
 > This repository is an MVP using only synthetic organizations, providers, identifiers, and payer portals. It is not a compliance-certified system and makes no HIPAA, SOC 2, accuracy, or automation-success claims.
 
