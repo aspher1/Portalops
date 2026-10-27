@@ -1,6 +1,8 @@
 <!-- portfolio-intro:start -->
 # PortalOps AI
 
+[![CI status](https://github.com/aspher1/Portalops/actions/workflows/ci.yml/badge.svg)](https://github.com/aspher1/Portalops/actions/workflows/ci.yml)
+
 **Human-supervised workflow automation for healthcare credentialing and payer enrollment.**
 
 PortalOps is a full-stack **prototype** exploring how bounded browser workflows, explicit approval gates and evidence trails can make repetitive administrative operations more auditable.
